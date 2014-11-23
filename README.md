@@ -1,1 +1,3 @@
 #Stopwatch-qt-html5
+
+一个用 Qt 4 Webkit 写的停表程序，除了使用 QtWebkit 外壳外，所有逻辑都用 HTML 和 JavaScript 处理…
