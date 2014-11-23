@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript">
+            window.onload = function () {
+                var START_LABEL = "开始";
+                var STOP_LABEL = "结束";
+                var RESET_LABEL = "重置";
+
+                // generate numbers;
+                var rand = new Array();
+                for(var i=0; i<150; i++) {
+                    if (i%2 == 0) {
+                        t = i%150;
+                        if (t < 10) {
+                            t = '00' + t;
+                        } else if (t < 100) {
+                            t = '0' + t;
+                        }
+                        rand[i] = t;
+                    } else {
+                        t = 150 - (i%150);
+                        if (t < 10) {
+                            t = '00' + t;
+                        } else if (t < 100) {
+                            t = '0' + t;
+                        }
+                    }
+                    rand[i] = t;
+                }
+                for(var i=0; i<150+80; i++) {
+                    var t;
+                    if (i%2 == 0) {
+                        t = 150 - (i%150);
+                        if (t < 10) {
+                            t = '00' + t;
+                        } else if (t < 100) {
+                            t = '0' + t;
+                        }
+                    } else {
+                        t = i%150;
+                        if (t < 10) {
+                            t = '00' + t;
+                        } else if (t < 100) {
+                            t = '0' + t;
+                        }
+                    }
+                    rand[150+i] = t;
+                }
+
+                var tick = 0;
+                var timer_div = document.getElementById('timer');
+                function timer_func () {
+                    if (tick+1 >= rand.length) {
+                        for(var i=0; i<200; i++) {
+                            var r1 = parseInt(Math.random() * 380)%380;
+                            var r2 = parseInt(Math.random() * 180)%180 + 200;
+                            var t = rand[r1];
+                            rand[r1] = rand[r2];
+                            rand[r2] = t;
+                        }
+                        tick = 0;
+                    } else {
+                        tick = tick+1;
+                    }
+                    timer_div.innerHTML = rand[tick];
+                }
+                var timer_btn = document.getElementById('timer_btn');
+                timer_btn.innerHTML = START_LABEL;
+                timer_btn.onclick = function () {
+                    if (this.innerHTML == STOP_LABEL) {
+                        clearInterval(timer);
+                        this.innerHTML = START_LABEL;
+                    } else {
+                        timer = setInterval(timer_func, 10);
+                        this.innerHTML = STOP_LABEL;
+                    }
+                };
+                var timer_reset_btn = document.getElementById('timer_reset_btn');
+                timer_reset_btn.innerHTML = RESET_LABEL;
+                timer_reset_btn.onclick = function() {
+                    t = 0;
+                    timer_div.innerHTML = rand[t];
+                };
+            }
+        </script>
+        <style type="text/css">
+            html {
+                width: 100%; height: 100%;
+            }
+            body {
+                width: 100%; height: 100%; padding: 0; margin: 0;
+                background-image: url('boat.png');
+                background-position: bottom center;
+                background-repeat: no-repeat;
+            }
+            .clearfix {
+                clear:both;
+            }
+            .actionbar button {
+                background-color: none;
+                border-width: 0px;
+            }
+            #timer {
+                font-size: 100px;
+                text-align: center;
+                position: absolute;
+                right: 130px;
+                top: 140px;
+                background-image: url('circle1.png');
+                width: 360px;
+                height: 222px;
+                line-height: 222px;
+                text-align: center;
+            }
+            #timer:hover {
+                background-image: url('circle1_hover.png');
+            }
+            #timer_btn {
+                position: absolute;
+                right: 250px;
+                top: 380px;
+                background-image: url('circle2.png');
+                width: 113px;
+                height: 69px;
+                line-height: 69px;
+                text-align: center;
+            }
+            #timer_btn:active {
+                background-image: url('circle2_hover.png');
+            }
+            #timer_reset_btn {
+                position: absolute;
+                right: 300px;
+                top: 450px;
+                background-image: url('circle3.png');
+                width: 55px;
+                height: 34px;
+                line-height: 34px;
+                text-align: center;
+            }
+            #timer_reset_btn:active {
+                background-image: url('circle3_hover.png');
+            }
+        </style>
+    </head>
+    <body>
+        <div id="timer">000</div>
+        <div class="action-bar">
+            <a id="timer_btn">Start</a>
+            <a id="timer_reset_btn">Reset</a>
+            <div class="clearfix"></div>
+        </div>
+    </body>
+</html>
